@@ -46,3 +46,9 @@ ENV/
 *.tmp
 *.bak
 
+# Large binaries (too large for GitHub)
+resources/ffmpeg/ffmpeg
+
+# History/backup files
+.history/
+
