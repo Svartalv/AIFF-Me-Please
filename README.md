@@ -71,8 +71,10 @@ brew install ffmpeg
 1. Download FFmpeg from [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
 2. Extract and add to your PATH, or place the binary in `/usr/local/bin/`
 
-**Option C: Use Bundled FFmpeg**
-The app includes a bundled FFmpeg binary in `resources/ffmpeg/ffmpeg`. If you have issues with system FFmpeg, the app will try to use this bundled version.
+**Option C: Download FFmpeg Manually**
+If you can't use Homebrew, download FFmpeg from [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html) and add it to your PATH.
+
+**Note**: The repository does not include the FFmpeg binary due to size limitations. You must install FFmpeg separately using one of the methods above.
 
 ### Step 3: Run the Application
 
