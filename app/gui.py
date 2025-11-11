@@ -6,15 +6,29 @@ import threading
 import subprocess
 import os
 import re
-import mutagen
-from mutagen.flac import FLAC
-from mutagen.mp3 import MP3
+import sys
 
-# Try to import PIL for icon support
+# Try to import mutagen
+try:
+    import mutagen
+    from mutagen.flac import FLAC
+    from mutagen.mp3 import MP3
+except ImportError:
+    print("Error: mutagen is not installed. Please run: pip3 install --user mutagen")
+    sys.exit(1)
+
+# Try to import PIL for icon support (optional - only needed for icon display)
+HAS_PIL = False
 try:
     from PIL import Image, ImageTk
     HAS_PIL = True
 except ImportError:
+    # Pillow not installed - that's okay, app will work without icon
+    pass
+except Exception as e:
+    # Pillow installed but incompatible (e.g., macOS version mismatch)
+    # App will work fine without icon
+    print(f"Note: Icon support unavailable ({type(e).__name__}). App will work normally.")
     HAS_PIL = False
 
 

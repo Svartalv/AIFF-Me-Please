@@ -30,7 +30,17 @@ echo ""
 
 # Install Python dependencies
 echo "Installing Python dependencies..."
-python3 -m pip install --user -r requirements.txt
+echo "Installing required dependency (mutagen)..."
+python3 -m pip install --user mutagen
+echo "✓ Mutagen installed"
+
+# Try to install Pillow (optional - for icon support)
+echo "Installing optional dependency (Pillow for icon support)..."
+if python3 -m pip install --user Pillow 2>/dev/null; then
+    echo "✓ Pillow installed (icon support enabled)"
+else
+    echo "⚠️  Pillow installation skipped (icon may not display, but app will work fine)"
+fi
 echo "✓ Dependencies installed"
 echo ""
 
