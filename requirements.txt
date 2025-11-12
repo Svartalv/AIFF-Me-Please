@@ -1,6 +1,7 @@
 # Required dependency for running the app
-# Using older version for macOS 14.6 compatibility
-mutagen>=1.45.0,<1.48.0
+# FORCED old version for macOS 14.6 compatibility
+# Use --no-deps to avoid pulling in incompatible dependencies
+mutagen==1.45.1
 
 # Note: Pillow is NOT included - it causes macOS version compatibility issues
 # The app works perfectly without Pillow (icon won't display, but all features work)

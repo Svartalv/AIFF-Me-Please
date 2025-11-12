@@ -17,8 +17,8 @@
    ```
 
 The installer automatically:
-- ✅ Checks Python version
-- ✅ Installs required dependencies
+- ✅ Removes problematic packages (Pillow)
+- ✅ Installs compatible dependencies (mutagen 1.45.1 for macOS 14.6)
 - ✅ Checks for FFmpeg
 - ✅ Sets everything up
 
@@ -42,27 +42,34 @@ The app will be created at: `dist/AIFF Me Please.app`
 
 If you prefer to install manually:
 
-1. **Install Python dependencies**:
+1. **Remove Pillow** (causes macOS compatibility issues):
    ```bash
-   pip3 install --user mutagen
+   pip3 uninstall -y Pillow
    ```
 
-2. **Install FFmpeg**:
+2. **Install Python dependencies** (compatible version for macOS 14.6):
+   ```bash
+   pip3 install --user 'mutagen==1.45.1' --no-deps
+   ```
+
+3. **Install FFmpeg**:
    ```bash
    brew install ffmpeg
    ```
    (If you don't have Homebrew, install it from [brew.sh](https://brew.sh))
 
-3. **Run the app**:
+4. **Run the app**:
    ```bash
    python3 run.py
    ```
 
 ## Requirements
 
-- **macOS** (10.14 or later)
+- **macOS** (10.14 or later, including macOS 14.6)
 - **Python 3.7+** (check with `python3 --version`)
 - **FFmpeg** (for audio conversion)
+
+**macOS 14.6 Compatibility**: The installer automatically forces compatible package versions (mutagen 1.45.1) to work on macOS 14.6 and earlier. If you encounter macOS version errors, run `./fix_macos.sh`.
 
 ## Troubleshooting
 
@@ -82,10 +89,30 @@ brew install ffmpeg
 Or download from: https://ffmpeg.org/download.html
 
 ### "No module named 'mutagen'"
-Install it:
+Install the compatible version:
 ```bash
-pip3 install --user mutagen
+pip3 install --user 'mutagen==1.45.1' --no-deps
 ```
+Or run `./setup.sh` which will install the correct version automatically.
+
+### macOS Version Error (macOS 14.6)
+If you see:
+```
+macOS 14 (1407) or later required, have instead 14 (1406) !
+```
+
+**Quick fix**:
+```bash
+./fix_macos.sh
+```
+
+**Or manually**:
+```bash
+pip3 uninstall -y Pillow
+pip3 install --user 'mutagen==1.45.1' --no-deps
+```
+
+The app works perfectly without Pillow (you just won't see the icon).
 
 ### "Python version too old"
 You need Python 3.7 or later. Check your version:

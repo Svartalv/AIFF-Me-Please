@@ -46,23 +46,33 @@ Then double-click `dist/AIFF Me Please.app` - no installation needed!
 
 ## What You Need
 
-- **macOS** (10.14 or later)
+- **macOS** (10.14 or later, including macOS 14.6)
 - **Python 3.7+** (check with `python3 --version`)
 - **FFmpeg** (installer will help you get it)
 
-**Note**: The app works with Python 3.7, 3.8, 3.9, 3.10, 3.11, and 3.12. If you have an older version, the installer will warn you but will still try to install.
+**macOS 14.6 Compatibility**: The installer automatically forces compatible package versions. If you get macOS version errors, run `./fix_macos.sh` to force downgrade all dependencies.
 
 ## Troubleshooting
+
+**macOS Version Error** (macOS 14.6 or earlier):
+```
+macOS 14 (1407) or later required, have instead 14 (1406) !
+```
+- **Quick fix**: Run `./fix_macos.sh` to force downgrade dependencies
+- Or manually: `pip3 uninstall Pillow && pip3 install --user 'mutagen==1.45.1' --no-deps`
+- The app works perfectly without Pillow (just no icon display)
 
 **"FFmpeg not found"**
 - Run: `brew install ffmpeg`
 
 **"No module named 'mutagen'"**
-- Run: `pip3 install --user mutagen`
+- Run: `pip3 install --user 'mutagen==1.45.1' --no-deps`
+- Or run: `./setup.sh` (it will install the compatible version)
 
 **App won't start**
 - Check Python: `python3 --version` (needs 3.7+)
 - Check dependencies: `pip3 list | grep mutagen`
+- If on macOS 14.6: Run `./fix_macos.sh` first
 
 ## Features
 

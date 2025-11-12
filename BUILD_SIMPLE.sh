@@ -32,27 +32,36 @@ if ! python3 -c "import PyInstaller" 2>/dev/null; then
     echo "✓ PyInstaller installed"
 fi
 
-# Remove Pillow first (compatibility)
-echo "Removing Pillow if present..."
-pip3 uninstall -y Pillow 2>/dev/null || true
-python3 -m pip uninstall -y Pillow 2>/dev/null || true
+# FORCE remove Pillow first (macOS 14.6 compatibility)
+echo "Force removing Pillow and related packages..."
+pip3 uninstall -y Pillow PIL 2>/dev/null || true
+python3 -m pip uninstall -y Pillow PIL 2>/dev/null || true
 
-# Install mutagen if needed (use compatible version)
+# Install mutagen if needed (FORCE old version for macOS 14.6)
 if ! python3 -c "import mutagen" 2>/dev/null; then
-    echo "Installing mutagen (compatible version)..."
-    if ! python3 -m pip install --user "mutagen<1.48" 2>/dev/null; then
-        if ! pip3 install --user "mutagen<1.48" 2>/dev/null; then
-            # Fallback to latest if pinned version fails
-            if ! python3 -m pip install --user mutagen 2>/dev/null; then
-                if ! pip3 install --user mutagen 2>/dev/null; then
-                    echo "❌ Failed to install mutagen"
-                    echo "   Please install manually: pip3 install --user mutagen"
-                    exit 1
-                fi
-            fi
-        fi
+    echo "Installing mutagen 1.45.1 (forced old version for macOS 14.6)..."
+    # Uninstall any existing mutagen first
+    pip3 uninstall -y mutagen 2>/dev/null || true
+    python3 -m pip uninstall -y mutagen 2>/dev/null || true
+    
+    # Try to install specific old version with --no-deps
+    if python3 -m pip install --user "mutagen==1.45.1" --no-deps 2>/dev/null; then
+        echo "✓ Mutagen 1.45.1 installed"
+    elif pip3 install --user "mutagen==1.45.1" --no-deps 2>/dev/null; then
+        echo "✓ Mutagen 1.45.1 installed"
+    elif python3 -m pip install --user "mutagen==1.45.0" --no-deps 2>/dev/null; then
+        echo "✓ Mutagen 1.45.0 installed"
+    elif pip3 install --user "mutagen==1.45.0" --no-deps 2>/dev/null; then
+        echo "✓ Mutagen 1.45.0 installed"
+    elif python3 -m pip install --user "mutagen<1.46" 2>/dev/null; then
+        echo "✓ Mutagen installed (old version)"
+    elif pip3 install --user "mutagen<1.46" 2>/dev/null; then
+        echo "✓ Mutagen installed (old version)"
+    else
+        echo "❌ Failed to install mutagen"
+        echo "   Please install manually: pip3 install --user 'mutagen==1.45.1' --no-deps"
+        exit 1
     fi
-    echo "✓ Mutagen installed"
 fi
 
 echo "Cleaning old builds..."
