@@ -28,7 +28,7 @@ class FLAC2AIFFApp:
     def __init__(self, root: tk.Tk):
         """Initialize GUI."""
         self.root = root
-        self.root.title("Convert your audio files to AIFF")
+        self.root.title("AIFF Me Please")
         self.root.geometry("900x600")
         self.root.resizable(True, True)
         
@@ -298,13 +298,13 @@ class FLAC2AIFFApp:
             text="Choose",
             command=self._select_input_folder,
             font=("SF Pro Text", 10, "normal"),
-            bg=self.accent_color,
-            fg=self.button_text,  # White text for readability
+            bg=self.accent_color,  # Very dark (#0d0d0d)
+            fg="#ffffff",  # White text for readability
             activebackground=self.hover_color,
-            activeforeground=self.button_text,
+            activeforeground="#ffffff",
             relief=tk.FLAT,
-            borderwidth=1,
-            highlightbackground=self.border_color,
+            borderwidth=0,  # No border
+            highlightthickness=0,  # No highlight
             padx=25,
             pady=8,
             cursor="hand2"
@@ -342,13 +342,13 @@ class FLAC2AIFFApp:
             text="Choose",
             command=self._select_output_folder,
             font=("SF Pro Text", 10, "normal"),
-            bg=self.accent_color,
-            fg=self.button_text,  # White text for readability
+            bg=self.accent_color,  # Very dark (#0d0d0d)
+            fg="#ffffff",  # White text for readability
             activebackground=self.hover_color,
-            activeforeground=self.button_text,
+            activeforeground="#ffffff",
             relief=tk.FLAT,
-            borderwidth=1,
-            highlightbackground=self.border_color,
+            borderwidth=0,  # No border
+            highlightthickness=0,  # No highlight
             padx=25,
             pady=8,
             cursor="hand2"
@@ -440,7 +440,8 @@ class FLAC2AIFFApp:
             activebackground=self.hover_color,  # Slightly lighter on hover
             activeforeground="#ffffff",
             relief=tk.FLAT,
-            borderwidth=0,
+            borderwidth=0,  # No border
+            highlightthickness=0,  # No highlight
             padx=50,
             pady=12,
             cursor="hand2"
