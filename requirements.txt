@@ -1,4 +1,9 @@
+# Required dependency for running the app
 mutagen>=1.47.0
+
 # Note: Pillow is NOT included - it causes macOS version compatibility issues
 # The app works perfectly without Pillow (icon won't display, but all features work)
 
+# Build dependencies (only needed if building standalone app):
+# PyInstaller is NOT in requirements.txt - install it separately if needed:
+# pip3 install --user pyinstaller

@@ -32,8 +32,17 @@ echo ""
 # Install Python dependencies
 echo "Installing Python dependencies..."
 echo "Installing required dependency (mutagen)..."
-python3 -m pip install --user mutagen
-echo "✓ Mutagen installed"
+if python3 -m pip install --user mutagen; then
+    echo "✓ Mutagen installed"
+else
+    echo "⚠️  Failed to install mutagen. Trying alternative method..."
+    pip3 install --user mutagen || {
+        echo "❌ Could not install mutagen. Please install manually:"
+        echo "   pip3 install --user mutagen"
+        exit 1
+    }
+    echo "✓ Mutagen installed"
+fi
 
 # Remove Pillow if it's installed (causes macOS version compatibility issues)
 echo "Checking for Pillow..."
