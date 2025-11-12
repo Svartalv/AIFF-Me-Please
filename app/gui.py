@@ -709,10 +709,10 @@ class FLAC2AIFFApp:
         # Disable start button - Cursor style disabled state
         self.start_button.config(
             state=tk.DISABLED,
-            bg="#3c3c3c",  # Dark gray disabled
-            fg="#858585",  # Readable but muted
-            activebackground="#3c3c3c",
-            activeforeground="#858585",
+            bg="#0d0d0d",  # Very dark disabled (same as enabled)
+            fg="#666666",  # Darker gray text when disabled
+            activebackground="#0d0d0d",
+            activeforeground="#666666",
             cursor=""
         )
         self.is_converting = True
