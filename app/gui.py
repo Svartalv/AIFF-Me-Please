@@ -35,10 +35,10 @@ class FLAC2AIFFApp:
         # Configure dark theme colors - Cursor-style
         self.bg_color = "#1e1e1e"  # Cursor background
         self.fg_color = "#cccccc"  # Light gray text (readable)
-        self.accent_color = "#1a1a1a"  # Much darker grey buttons
+        self.accent_color = "#0d0d0d"  # Very dark grey buttons (almost black)
         self.secondary_bg = "#252526"  # Input fields (darker)
         self.border_color = "#3e3e42"  # Subtle borders
-        self.hover_color = "#252525"  # Slightly lighter hover
+        self.hover_color = "#1a1a1a"  # Slightly lighter hover
         self.button_text = "#ffffff"  # White text on buttons for readability
         self.icon_image = None  # Store icon for messageboxes
         
@@ -260,7 +260,7 @@ class FLAC2AIFFApp:
         # Title with modern styling - Cursor style
         title_label = tk.Label(
             main_frame,
-            text="AIFF Me Please",
+            text="Convert your audio files to aiff",
             font=("SF Pro Display", 22, "normal"),
             bg=self.bg_color,
             fg="#ffffff"  # Bright white for title
