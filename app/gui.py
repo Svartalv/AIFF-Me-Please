@@ -435,9 +435,9 @@ class FLAC2AIFFApp:
             text="Start Conversion",
             command=self._start_conversion,
             font=("SF Pro Text", 11, "normal"),
-            bg=self.accent_color,  # Very dark button (#0d0d0d)
+            bg="#0d0d0d",  # Very dark button - hardcoded to ensure it's dark
             fg="#ffffff",  # White text for readability
-            activebackground=self.hover_color,  # Slightly lighter on hover
+            activebackground="#1a1a1a",  # Slightly lighter on hover
             activeforeground="#ffffff",
             relief=tk.FLAT,
             borderwidth=0,  # No border
