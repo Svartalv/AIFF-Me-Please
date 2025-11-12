@@ -25,8 +25,12 @@ Convert your audio files (FLAC, MP3) to AIFF format for DJ use.
 
 ### Build Standalone App (No Python Needed!)
 
-Create a double-clickable app:
+**Simple method** (recommended):
+```bash
+./BUILD_SIMPLE.sh
+```
 
+**Or advanced method**:
 ```bash
 ./build_app.sh
 ```
@@ -42,9 +46,11 @@ Then double-click `dist/AIFF Me Please.app` - no installation needed!
 
 ## What You Need
 
-- **macOS** (any recent version)
-- **Python 3.7+** (usually pre-installed)
+- **macOS** (10.14 or later)
+- **Python 3.7+** (check with `python3 --version`)
 - **FFmpeg** (installer will help you get it)
+
+**Note**: The app works with Python 3.7, 3.8, 3.9, 3.10, 3.11, and 3.12. If you have an older version, the installer will warn you but will still try to install.
 
 ## Troubleshooting
 

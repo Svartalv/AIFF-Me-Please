@@ -16,8 +16,19 @@ if ! command -v python3 &> /dev/null; then
     exit 1
 fi
 
-PYTHON_VERSION=$(python3 --version | cut -d' ' -f2 | cut -d'.' -f1,2)
+PYTHON_VERSION=$(python3 --version 2>&1 | awk '{print $2}')
+PYTHON_MAJOR=$(echo $PYTHON_VERSION | cut -d'.' -f1)
+PYTHON_MINOR=$(echo $PYTHON_VERSION | cut -d'.' -f2)
+
 echo "✓ Found Python $PYTHON_VERSION"
+
+# Check if Python version is 3.7 or later
+if [ "$PYTHON_MAJOR" -lt 3 ] || ([ "$PYTHON_MAJOR" -eq 3 ] && [ "$PYTHON_MINOR" -lt 7 ]); then
+    echo "⚠️  Warning: Python 3.7 or later is recommended"
+    echo "   You have Python $PYTHON_VERSION"
+    echo "   The app may still work, but some features might not be available"
+    echo ""
+fi
 echo ""
 
 # Check if pip is available

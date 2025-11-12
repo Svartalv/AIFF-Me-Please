@@ -44,15 +44,22 @@ cd "$SCRIPT_DIR"
 echo "Building .app bundle using spec file..."
 echo ""
 
+# Check Python version
+PYTHON_VERSION=$(python3 --version 2>&1 | awk '{print $2}' | cut -d'.' -f1,2)
+echo "Using Python $PYTHON_VERSION"
+echo ""
+
 # Check if spec file exists
-if [ ! -f "AIFF_Me_Please.spec" ]; then
-    echo "❌ Spec file not found! Creating it..."
+if [ ! -f "$SCRIPT_DIR/AIFF_Me_Please.spec" ]; then
+    echo "⚠️  Spec file not found! Generating it..."
     python3 -m PyInstaller --name "AIFF Me Please" \
         --windowed \
         --onefile \
         --hidden-import=mutagen \
         --hidden-import=mutagen.flac \
         --hidden-import=mutagen.mp3 \
+        --hidden-import=mutagen.id3 \
+        --hidden-import=mutagen._util \
         --collect-all mutagen \
         --exclude-module=PIL \
         --exclude-module=Pillow \
@@ -60,16 +67,32 @@ if [ ! -f "AIFF_Me_Please.spec" ]; then
         --clean \
         run.py
     
-    # Now try to build with the generated spec
-    if [ -f "AIFF Me Please.spec" ]; then
-        python3 -m PyInstaller "AIFF Me Please.spec" --clean --noconfirm
+    # Check if spec was generated (PyInstaller creates it with spaces in name)
+    if [ -f "$SCRIPT_DIR/AIFF Me Please.spec" ]; then
+        echo "✓ Spec file generated, building app..."
+        python3 -m PyInstaller "$SCRIPT_DIR/AIFF Me Please.spec" --clean --noconfirm
+    elif [ -f "$SCRIPT_DIR/AIFF_Me_Please.spec" ]; then
+        echo "✓ Spec file found, building app..."
+        python3 -m PyInstaller "$SCRIPT_DIR/AIFF_Me_Please.spec" --clean --noconfirm
     else
         echo "❌ Failed to generate spec file"
-        exit 1
+        echo "Trying direct build without spec..."
+        python3 -m PyInstaller --name "AIFF Me Please" \
+            --windowed \
+            --onefile \
+            --hidden-import=mutagen \
+            --hidden-import=mutagen.flac \
+            --hidden-import=mutagen.mp3 \
+            --exclude-module=PIL \
+            --exclude-module=Pillow \
+            --noconfirm \
+            --clean \
+            run.py
     fi
 else
     # Build using the spec file
-    python3 -m PyInstaller AIFF_Me_Please.spec --clean --noconfirm
+    echo "Using existing spec file..."
+    python3 -m PyInstaller "$SCRIPT_DIR/AIFF_Me_Please.spec" --clean --noconfirm
 fi
 
 if [ $? -eq 0 ] && ([ -d "dist/AIFF Me Please.app" ] || [ -f "dist/AIFF Me Please.app" ]); then
