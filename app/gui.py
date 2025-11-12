@@ -877,9 +877,9 @@ class FLAC2AIFFApp:
         self.is_converting = False
         self.start_button.config(
             state=tk.NORMAL,
-            bg=self.accent_color,  # Very dark button (#0d0d0d)
+            bg="#0d0d0d",  # Very dark button - hardcoded to ensure it's dark
             fg="#ffffff",
-            activebackground=self.hover_color,
+            activebackground="#1a1a1a",
             activeforeground="#ffffff",
             cursor="hand2"
         )
