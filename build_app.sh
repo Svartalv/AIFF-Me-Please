@@ -20,7 +20,7 @@ if ! python3 -m pip show mutagen &>/dev/null; then
 fi
 
 echo "Cleaning previous builds..."
-rm -rf build dist *.spec 2>/dev/null || true
+rm -rf build dist 2>/dev/null || true
 echo ""
 
 echo "Building .app bundle using spec file..."
