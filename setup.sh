@@ -2,7 +2,8 @@
 # Setup script for AIFF Me Please
 # This script installs dependencies and sets up the application
 
-set -e
+# Don't exit on errors - we want to handle Pillow failures gracefully
+set +e
 
 echo "🎵 AIFF Me Please - Setup Script"
 echo "=================================="
@@ -80,13 +81,17 @@ elif [ -f "resources/ffmpeg/ffmpeg" ]; then
 else
     echo "⚠️  FFmpeg not found. Installing via Homebrew..."
     if command -v brew &> /dev/null; then
-        brew install ffmpeg
-        echo "✓ FFmpeg installed via Homebrew"
+        if brew install ffmpeg; then
+            echo "✓ FFmpeg installed via Homebrew"
+        else
+            echo "⚠️  FFmpeg installation failed. Please install manually:"
+            echo "   brew install ffmpeg"
+            echo "   Or download from: https://ffmpeg.org/download.html"
+        fi
     else
-        echo "❌ Homebrew not found. Please install FFmpeg manually:"
+        echo "⚠️  Homebrew not found. Please install FFmpeg manually:"
         echo "   brew install ffmpeg"
         echo "   Or download from: https://ffmpeg.org/download.html"
-        exit 1
     fi
 fi
 echo ""
