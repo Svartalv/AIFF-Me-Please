@@ -293,21 +293,12 @@ class FLAC2AIFFApp:
         )
         input_entry.grid(row=row, column=1, sticky=(tk.W, tk.E), padx=15, pady=12, ipady=8)
         
-        input_button = tk.Button(
+        # Use ttk.Button with dark style for macOS compatibility
+        input_button = ttk.Button(
             main_frame,
             text="Choose",
             command=self._select_input_folder,
-            font=("SF Pro Text", 10, "normal"),
-            bg=self.accent_color,  # Very dark (#0d0d0d)
-            fg="#ffffff",  # White text for readability
-            activebackground=self.hover_color,
-            activeforeground="#ffffff",
-            relief=tk.FLAT,
-            borderwidth=0,  # No border
-            highlightthickness=0,  # No highlight
-            padx=25,
-            pady=8,
-            cursor="hand2"
+            style="Dark.TButton"
         )
         input_button.grid(row=row, column=2, padx=5, pady=12)
         row += 1
@@ -337,21 +328,12 @@ class FLAC2AIFFApp:
         )
         output_entry.grid(row=row, column=1, sticky=(tk.W, tk.E), padx=15, pady=12, ipady=8)
         
-        output_button = tk.Button(
+        # Use ttk.Button with dark style for macOS compatibility
+        output_button = ttk.Button(
             main_frame,
             text="Choose",
             command=self._select_output_folder,
-            font=("SF Pro Text", 10, "normal"),
-            bg=self.accent_color,  # Very dark (#0d0d0d)
-            fg="#ffffff",  # White text for readability
-            activebackground=self.hover_color,
-            activeforeground="#ffffff",
-            relief=tk.FLAT,
-            borderwidth=0,  # No border
-            highlightthickness=0,  # No highlight
-            padx=25,
-            pady=8,
-            cursor="hand2"
+            style="Dark.TButton"
         )
         output_button.grid(row=row, column=2, padx=5, pady=12)
         row += 1
@@ -367,6 +349,19 @@ class FLAC2AIFFApp:
         columns = ("input", "output", "status")
         style = ttk.Style()
         style.theme_use("clam")
+        
+        # Configure dark button style for macOS compatibility
+        style.configure("Dark.TButton",
+            background="#0d0d0d",
+            foreground="#ffffff",
+            borderwidth=0,
+            focuscolor="none",
+            padding=10
+        )
+        style.map("Dark.TButton",
+            background=[("active", "#1a1a1a"), ("!disabled", "#0d0d0d")],
+            foreground=[("active", "#ffffff"), ("!disabled", "#ffffff")]
+        )
         
         # Configure treeview style - Cursor style
         style.configure("Treeview",
@@ -429,22 +424,12 @@ class FLAC2AIFFApp:
         self.status_label.grid(row=row, column=0, columnspan=3, pady=20)
         row += 1
         
-        # Start button - Very dark style
-        self.start_button = tk.Button(
+        # Start button - Use ttk.Button with dark style for macOS compatibility
+        self.start_button = ttk.Button(
             main_frame,
             text="Start Conversion",
             command=self._start_conversion,
-            font=("SF Pro Text", 11, "normal"),
-            bg="#0d0d0d",  # Very dark button - hardcoded to ensure it's dark
-            fg="#ffffff",  # White text for readability
-            activebackground="#1a1a1a",  # Slightly lighter on hover
-            activeforeground="#ffffff",
-            relief=tk.FLAT,
-            borderwidth=0,  # No border
-            highlightthickness=0,  # No highlight
-            padx=50,
-            pady=12,
-            cursor="hand2"
+            style="Dark.TButton"
         )
         self.start_button.grid(row=row, column=0, columnspan=3, pady=25)
     
@@ -708,13 +693,10 @@ class FLAC2AIFFApp:
             return
         
         # Disable start button - Cursor style disabled state
-        self.start_button.config(
-            state=tk.DISABLED,
-            bg="#0d0d0d",  # Very dark disabled (same as enabled)
-            fg="#666666",  # Darker gray text when disabled
-            activebackground="#0d0d0d",
-            activeforeground="#666666",
-            cursor=""
+        self.start_button.config(state=tk.DISABLED)
+        style.configure("Dark.TButton",
+            background="#0d0d0d",
+            foreground="#666666"  # Darker gray when disabled
         )
         self.is_converting = True
         self.status_label.config(text=f"Converting {len(audio_files)} file(s)...", fg=self.fg_color)
@@ -875,13 +857,10 @@ class FLAC2AIFFApp:
     def _conversion_complete(self, converted: int, failed: int, total: int) -> None:
         """Handle conversion completion."""
         self.is_converting = False
-        self.start_button.config(
-            state=tk.NORMAL,
-            bg="#0d0d0d",  # Very dark button - hardcoded to ensure it's dark
-            fg="#ffffff",
-            activebackground="#1a1a1a",
-            activeforeground="#ffffff",
-            cursor="hand2"
+        self.start_button.config(state=tk.NORMAL)
+        style.configure("Dark.TButton",
+            background="#0d0d0d",
+            foreground="#ffffff"  # White text when enabled
         )
         
         if converted > 0:
