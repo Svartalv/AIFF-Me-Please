@@ -3,8 +3,7 @@ import sys
 import os
 from pathlib import Path
 
-# Prevent Pillow from causing system abort on older macOS versions
-os.environ.setdefault('PILLOW_DISABLE_VERSION_CHECK', '1')
+# Pillow is not used - removed to prevent macOS compatibility issues
 
 # Add parent directory to path if running as script
 if __name__ == "__main__":

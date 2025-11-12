@@ -35,38 +35,16 @@ echo "Installing required dependency (mutagen)..."
 python3 -m pip install --user mutagen
 echo "✓ Mutagen installed"
 
-# Check for existing Pillow that might cause macOS version issues
-echo "Checking for Pillow compatibility issues..."
+# Remove Pillow if it's installed (causes macOS version compatibility issues)
+echo "Checking for Pillow..."
 if pip3 show Pillow &>/dev/null; then
-    PILLOW_VERSION=$(pip3 show Pillow | grep Version | cut -d' ' -f2)
-    echo "  Found Pillow $PILLOW_VERSION"
-    
-    # Test if Pillow can be imported without causing system abort
-    if python3 -c "from PIL import Image" 2>/dev/null; then
-        echo "✓ Pillow is compatible (icon support enabled)"
-    else
-        echo "⚠️  Pillow version incompatible with your macOS version"
-        echo "   Uninstalling Pillow to prevent errors..."
-        pip3 uninstall -y Pillow 2>/dev/null
-        echo "✓ Pillow removed (app will work fine without icon)"
-    fi
+    echo "  Found Pillow installed - removing to prevent macOS compatibility issues..."
+    pip3 uninstall -y Pillow 2>/dev/null || true
+    echo "✓ Pillow removed (app works perfectly without it - just no icon)"
 else
-    # Try to install Pillow (optional - for icon support)
-    echo "Installing optional dependency (Pillow for icon support)..."
-    if python3 -m pip install --user Pillow 2>/dev/null; then
-        # Test if it actually works
-        if python3 -c "from PIL import Image" 2>/dev/null; then
-            echo "✓ Pillow installed (icon support enabled)"
-        else
-            echo "⚠️  Pillow installed but incompatible with your macOS"
-            echo "   Removing to prevent errors..."
-            pip3 uninstall -y Pillow 2>/dev/null
-            echo "✓ Pillow removed (app will work fine without icon)"
-        fi
-    else
-        echo "⚠️  Pillow installation skipped (icon may not display, but app will work fine)"
-    fi
+    echo "✓ Pillow not installed (that's fine - app works without it)"
 fi
+
 echo "✓ Dependencies installed"
 echo ""
 

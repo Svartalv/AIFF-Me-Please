@@ -18,24 +18,11 @@ A simple, reliable macOS application for converting FLAC and MP3 audio files to 
 - **Python 3.7+**
 - **FFmpeg** (installation instructions below)
 
-## ⚠️ Important: macOS Version Compatibility
+## ⚠️ macOS Compatibility
 
-**If you have macOS 14.6 or earlier** and get an error like:
-```
-macOS 14 (1407) or later required, have instead 14 (1406) !
-```
+**Pillow has been removed** from this app to ensure compatibility with all macOS versions (including macOS 14.6 and earlier). 
 
-**Quick Fix**: Uninstall Pillow (it's only needed for the icon):
-```bash
-pip3 uninstall Pillow
-```
-
-The app works perfectly without Pillow - you just won't see the cat icon. All file conversion features work normally.
-
-**Or use the automatic fix script**:
-```bash
-./fix_macos.sh
-```
+The app works perfectly without Pillow - you just won't see the cat icon in the title bar. All file conversion features work normally.
 
 ## Installation
 
@@ -50,16 +37,10 @@ cd "/path/to/AIFF Me Please"
 
 This script will automatically:
 - Check Python version
-- Install required dependency (mutagen)
-- Try to install Pillow (optional, for icon support)
-- Handle macOS compatibility issues automatically
+- Install required dependency (mutagen only - Pillow removed for compatibility)
+- Remove Pillow if it's installed (prevents macOS version errors)
 - Check for FFmpeg and install it if needed via Homebrew
 - Make the app ready to run
-
-**If you get macOS version errors**, the setup script will handle it, or run:
-```bash
-./fix_macos.sh
-```
 
 Then run the app:
 ```bash
@@ -164,17 +145,8 @@ python3 -m app.main
 ### "No module named 'mutagen'"
 - Install mutagen: `pip3 install --user mutagen`
 
-### macOS Version Error (macOS 14.6 or earlier)
-**Error**: `macOS 14 (1407) or later required, have instead 14 (1406) !`
-
-This is caused by Pillow. **Fix it immediately**:
-```bash
-pip3 uninstall Pillow
-# Or use the fix script:
-./fix_macos.sh
-```
-
-The app works perfectly without Pillow - you just won't see the icon. All conversion features work normally.
+### Icon not showing
+The app icon is not displayed because Pillow has been removed for macOS compatibility. This is normal and expected. All app features work perfectly - you just won't see the cat icon in the title bar.
 
 ### Files not converting
 - Check that input files are valid FLAC or MP3

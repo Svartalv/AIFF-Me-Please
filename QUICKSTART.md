@@ -1,15 +1,8 @@
 # Quick Start Guide
 
-## ⚠️ IMPORTANT: macOS Compatibility
+## ⚠️ Note: Icon Display
 
-**If you have macOS 14.6 or earlier**, you may get a version error. The setup script handles this automatically, but if you see:
-```
-macOS 14 (1407) or later required, have instead 14 (1406) !
-```
-
-**Just run**: `./fix_macos.sh` and then `python3 run.py`
-
-The app works perfectly without Pillow - you just won't see the icon.
+Pillow has been removed from this app for macOS compatibility. The app works perfectly - you just won't see the cat icon in the title bar. All features work normally.
 
 ## For Your Friend - Simple Setup Instructions
 
@@ -29,17 +22,12 @@ The app works perfectly without Pillow - you just won't see the icon.
    
    This will automatically:
    - Check Python version
-   - Install required dependencies (mutagen)
-   - Handle Pillow compatibility automatically
+   - Install required dependency (mutagen)
+   - Remove Pillow if installed (for compatibility)
    - Check for FFmpeg and install it if needed
    - Make everything ready to run
 
-4. **If you get macOS version errors**, run:
-   ```bash
-   ./fix_macos.sh
-   ```
-
-5. **Run the app**:
+4. **Run the app**:
    ```bash
    python3 run.py
    ```
@@ -82,12 +70,9 @@ That's it! Your AIFF files will be ready for your CDJ.
 **"No module named 'mutagen'"**
 - Run: `pip3 install --user mutagen`
 
-**macOS Version Error** (most common on macOS 14.6 or earlier)
-```
-macOS 14 (1407) or later required, have instead 14 (1406) !
-```
-- **Fix**: `pip3 uninstall Pillow` or run `./fix_macos.sh`
-- The app works perfectly without Pillow (just no icon)
+**Icon not showing**
+- This is normal - Pillow has been removed for macOS compatibility
+- The app works perfectly without the icon
 
 **"FFmpeg not found"**
 - Install FFmpeg: `brew install ffmpeg` (if you have Homebrew)

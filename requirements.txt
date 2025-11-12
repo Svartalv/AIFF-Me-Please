@@ -1,7 +1,4 @@
 mutagen>=1.47.0
-# Pillow is optional - only needed for icon display
-# If you get macOS version errors, you can skip Pillow installation
-# The app will work fine without it (just no icon)
-# Uncomment the line below if you want to try installing Pillow:
-# Pillow>=9.0.0
+# Note: Pillow is NOT included - it causes macOS version compatibility issues
+# The app works perfectly without Pillow (icon won't display, but all features work)
 

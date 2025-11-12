@@ -9,9 +9,7 @@ project_root = Path(__file__).parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
-# Prevent Pillow from causing system abort on older macOS versions
-# Set environment variable to disable version check if needed
-os.environ.setdefault('PILLOW_DISABLE_VERSION_CHECK', '1')
+# Pillow is not used - removed to prevent macOS compatibility issues
 
 try:
     from app.gui import main
