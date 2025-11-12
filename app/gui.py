@@ -28,7 +28,7 @@ class FLAC2AIFFApp:
     def __init__(self, root: tk.Tk):
         """Initialize GUI."""
         self.root = root
-        self.root.title("Convert your audio files to aiff")
+        self.root.title("Convert your audio files to AIFF")
         self.root.geometry("900x600")
         self.root.resizable(True, True)
         
@@ -260,7 +260,7 @@ class FLAC2AIFFApp:
         # Title with modern styling - Cursor style
         title_label = tk.Label(
             main_frame,
-            text="Convert your audio files to aiff",
+            text="Convert your audio files to AIFF",
             font=("SF Pro Display", 22, "normal"),
             bg=self.bg_color,
             fg="#ffffff"  # Bright white for title
@@ -429,15 +429,15 @@ class FLAC2AIFFApp:
         self.status_label.grid(row=row, column=0, columnspan=3, pady=20)
         row += 1
         
-        # Start button - Much darker style
+        # Start button - Very dark style
         self.start_button = tk.Button(
             main_frame,
             text="Start Conversion",
             command=self._start_conversion,
             font=("SF Pro Text", 11, "normal"),
-            bg=self.accent_color,  # Much darker button
+            bg=self.accent_color,  # Very dark button (#0d0d0d)
             fg="#ffffff",  # White text for readability
-            activebackground=self.hover_color,
+            activebackground=self.hover_color,  # Slightly lighter on hover
             activeforeground="#ffffff",
             relief=tk.FLAT,
             borderwidth=0,
@@ -876,8 +876,10 @@ class FLAC2AIFFApp:
         self.is_converting = False
         self.start_button.config(
             state=tk.NORMAL,
-            bg=self.accent_color,  # Much darker button
+            bg=self.accent_color,  # Very dark button (#0d0d0d)
             fg="#ffffff",
+            activebackground=self.hover_color,
+            activeforeground="#ffffff",
             cursor="hand2"
         )
         
