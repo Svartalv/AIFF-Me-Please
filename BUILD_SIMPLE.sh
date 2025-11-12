@@ -32,14 +32,24 @@ if ! python3 -c "import PyInstaller" 2>/dev/null; then
     echo "✓ PyInstaller installed"
 fi
 
-# Install mutagen if needed
+# Remove Pillow first (compatibility)
+echo "Removing Pillow if present..."
+pip3 uninstall -y Pillow 2>/dev/null || true
+python3 -m pip uninstall -y Pillow 2>/dev/null || true
+
+# Install mutagen if needed (use compatible version)
 if ! python3 -c "import mutagen" 2>/dev/null; then
-    echo "Installing mutagen..."
-    if ! python3 -m pip install --user mutagen 2>/dev/null; then
-        if ! pip3 install --user mutagen 2>/dev/null; then
-            echo "❌ Failed to install mutagen"
-            echo "   Please install manually: pip3 install --user mutagen"
-            exit 1
+    echo "Installing mutagen (compatible version)..."
+    if ! python3 -m pip install --user "mutagen<1.48" 2>/dev/null; then
+        if ! pip3 install --user "mutagen<1.48" 2>/dev/null; then
+            # Fallback to latest if pinned version fails
+            if ! python3 -m pip install --user mutagen 2>/dev/null; then
+                if ! pip3 install --user mutagen 2>/dev/null; then
+                    echo "❌ Failed to install mutagen"
+                    echo "   Please install manually: pip3 install --user mutagen"
+                    exit 1
+                fi
+            fi
         fi
     fi
     echo "✓ Mutagen installed"

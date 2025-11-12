@@ -21,10 +21,18 @@ if ! python3 -m pip show pyinstaller &>/dev/null; then
     echo ""
 fi
 
+# Remove Pillow first (compatibility)
+echo "Removing Pillow if present (for macOS compatibility)..."
+pip3 uninstall -y Pillow 2>/dev/null || true
+python3 -m pip uninstall -y Pillow 2>/dev/null || true
+
 # Check if mutagen is installed (required for the app)
 if ! python3 -m pip show mutagen &>/dev/null; then
-    echo "Installing mutagen (required for the app)..."
-    python3 -m pip install --user mutagen
+    echo "Installing mutagen (compatible version for macOS 14.6)..."
+    if ! python3 -m pip install --user "mutagen<1.48" 2>/dev/null; then
+        # Fallback to latest
+        python3 -m pip install --user mutagen
+    fi
     if [ $? -ne 0 ]; then
         echo "❌ Failed to install mutagen"
         echo "   Please install manually: pip3 install --user mutagen"

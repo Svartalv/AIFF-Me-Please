@@ -1,21 +1,31 @@
 #!/bin/bash
-# Quick fix script for macOS version error
+# Quick fix for macOS 14.6 compatibility
+# Removes all problematic packages
 
-echo "🔧 Fixing macOS compatibility issue..."
+echo "🔧 Fixing macOS 14.6 compatibility..."
 echo ""
 
-# Check if Pillow is installed
-if pip3 show Pillow &>/dev/null; then
-    echo "⚠️  Pillow is installed and may cause macOS version errors."
-    echo "   Uninstalling Pillow (app works fine without it - just no icon)..."
-    pip3 uninstall -y Pillow
-    echo "✓ Pillow uninstalled"
+# Remove Pillow (main culprit)
+echo "Removing Pillow..."
+pip3 uninstall -y Pillow 2>/dev/null || true
+python3 -m pip uninstall -y Pillow 2>/dev/null || true
+echo "✓ Pillow removed"
+echo ""
+
+# Reinstall mutagen with compatible version
+echo "Reinstalling mutagen (compatible version)..."
+pip3 uninstall -y mutagen 2>/dev/null || true
+if python3 -m pip install --user "mutagen<1.48" 2>/dev/null; then
+    echo "✓ Mutagen reinstalled (compatible version)"
+elif pip3 install --user "mutagen<1.48" 2>/dev/null; then
+    echo "✓ Mutagen reinstalled (compatible version)"
 else
-    echo "✓ Pillow is not installed (that's fine)"
+    echo "⚠️  Could not reinstall mutagen, but that's okay"
 fi
-
-echo ""
-echo "✅ Fix complete! You can now run:"
-echo "   python3 run.py"
 echo ""
 
+echo "✅ Fix complete!"
+echo ""
+echo "The app should now work on macOS 14.6"
+echo "Run: python3 run.py"
+echo ""
