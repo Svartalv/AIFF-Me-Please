@@ -799,7 +799,8 @@ class FLAC2AIFFApp:
         
         # Set icon if available
         if self.icon_image:
-            dialog.iconphoto(True, self.icon_image)
+            # Icon removed for macOS compatibility - skip iconphoto call
+            # dialog.iconphoto(True, self.icon_image)
         
         # Center the dialog
         dialog.update_idletasks()
