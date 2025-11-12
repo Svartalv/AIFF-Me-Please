@@ -28,7 +28,7 @@ class FLAC2AIFFApp:
     def __init__(self, root: tk.Tk):
         """Initialize GUI."""
         self.root = root
-        self.root.title("AIFF Me Please")
+        self.root.title("Convert your audio files to aiff")
         self.root.geometry("900x600")
         self.root.resizable(True, True)
         
