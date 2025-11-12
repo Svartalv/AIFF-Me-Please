@@ -193,6 +193,9 @@ class FLAC2AIFFApp:
     
     def _set_app_icon(self) -> None:
         """Set the application icon."""
+        # Icon functionality completely disabled for macOS compatibility
+        # This prevents any crashes from icon loading
+        return
         try:
             # Try to load icon - check multiple locations and formats
             base_path = Path(__file__).parent.parent
@@ -896,9 +899,28 @@ class FLAC2AIFFApp:
 
 def main():
     """Main entry point for GUI."""
-    root = tk.Tk()
-    app = FLAC2AIFFApp(root)
-    root.mainloop()
+    try:
+        # Set environment variable to prevent Tkinter deprecation warnings
+        import os
+        os.environ['TK_SILENCE_DEPRECATION'] = '1'
+        
+        # Create root window
+        root = tk.Tk()
+        
+        # Create app instance
+        app = FLAC2AIFFApp(root)
+        
+        # Start main loop
+        root.mainloop()
+    except Exception as e:
+        print(f"\n❌ FATAL ERROR in GUI initialization: {e}")
+        import traceback
+        traceback.print_exc()
+        print("\nTroubleshooting:")
+        print("1. Run: python3 diagnose_crash.py")
+        print("2. Run: ./nuke_dependencies.sh")
+        print("3. Check: pip3 list | grep -E 'Pillow|mutagen'")
+        raise
 
 
 if __name__ == "__main__":
