@@ -18,17 +18,27 @@ except ImportError:
     sys.exit(1)
 
 # Try to import PIL for icon support (optional - only needed for icon display)
+# IMPORTANT: We catch ALL exceptions here because Pillow can cause system abort
+# on older macOS versions before we can catch the error normally
 HAS_PIL = False
 try:
+    # Set environment variable to try to prevent version check abort
+    import os
+    os.environ['PILLOW_DISABLE_VERSION_CHECK'] = '1'
+    
     from PIL import Image, ImageTk
     HAS_PIL = True
-except ImportError:
+except (ImportError, ModuleNotFoundError):
     # Pillow not installed - that's okay, app will work without icon
     pass
-except Exception as e:
+except (SystemExit, KeyboardInterrupt):
+    # Re-raise these
+    raise
+except BaseException as e:
+    # Catch ALL other exceptions including system aborts
     # Pillow installed but incompatible (e.g., macOS version mismatch)
     # App will work fine without icon
-    print(f"Note: Icon support unavailable ({type(e).__name__}). App will work normally.")
+    print(f"Note: Icon support unavailable. App will work normally.")
     HAS_PIL = False
 
 
