@@ -52,3 +52,8 @@ resources/ffmpeg/ffmpeg
 # History/backup files
 .history/
 
+# PyInstaller build files
+build/
+dist/
+*.spec
+
