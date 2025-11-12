@@ -694,6 +694,8 @@ class FLAC2AIFFApp:
         
         # Disable start button - Cursor style disabled state
         self.start_button.config(state=tk.DISABLED)
+        # Get style object
+        style = ttk.Style()
         style.configure("Dark.TButton",
             background="#0d0d0d",
             foreground="#666666"  # Darker gray when disabled
@@ -858,6 +860,8 @@ class FLAC2AIFFApp:
         """Handle conversion completion."""
         self.is_converting = False
         self.start_button.config(state=tk.NORMAL)
+        # Get style object
+        style = ttk.Style()
         style.configure("Dark.TButton",
             background="#0d0d0d",
             foreground="#ffffff"  # White text when enabled

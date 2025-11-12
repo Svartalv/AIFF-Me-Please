@@ -22,19 +22,27 @@ echo ""
 # Install PyInstaller if needed
 if ! python3 -c "import PyInstaller" 2>/dev/null; then
     echo "Installing PyInstaller..."
-    python3 -m pip install --user pyinstaller || {
-        echo "❌ Failed to install PyInstaller"
-        exit 1
-    }
+    if ! python3 -m pip install --user pyinstaller 2>/dev/null; then
+        if ! pip3 install --user pyinstaller 2>/dev/null; then
+            echo "❌ Failed to install PyInstaller"
+            echo "   Please install manually: pip3 install --user pyinstaller"
+            exit 1
+        fi
+    fi
+    echo "✓ PyInstaller installed"
 fi
 
 # Install mutagen if needed
 if ! python3 -c "import mutagen" 2>/dev/null; then
     echo "Installing mutagen..."
-    python3 -m pip install --user mutagen || {
-        echo "❌ Failed to install mutagen"
-        exit 1
-    }
+    if ! python3 -m pip install --user mutagen 2>/dev/null; then
+        if ! pip3 install --user mutagen 2>/dev/null; then
+            echo "❌ Failed to install mutagen"
+            echo "   Please install manually: pip3 install --user mutagen"
+            exit 1
+        fi
+    fi
+    echo "✓ Mutagen installed"
 fi
 
 echo "Cleaning old builds..."

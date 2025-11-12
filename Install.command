@@ -6,6 +6,14 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$DIR"
 
+# Make sure setup.sh is executable
+chmod +x "$DIR/setup.sh" 2>/dev/null
+
 # Open Terminal and run setup
-osascript -e "tell application \"Terminal\" to do script \"cd '$DIR' && ./setup.sh && echo '' && echo 'Press any key to exit...' && read -n 1\""
+osascript <<EOF
+tell application "Terminal"
+    activate
+    do script "cd '$DIR' && ./setup.sh && echo '' && echo '✅ Installation complete! Press any key to exit...' && read -n 1"
+end tell
+EOF
 

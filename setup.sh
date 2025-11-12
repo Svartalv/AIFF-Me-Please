@@ -2,7 +2,11 @@
 # Setup script for AIFF Me Please
 # This script installs dependencies and sets up the application
 
-# Don't exit on errors - we want to handle Pillow failures gracefully
+# Get the directory where this script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"
+
+# Don't exit on errors - we want to handle failures gracefully
 set +e
 
 echo "🎵 AIFF Me Please - Setup Script"
@@ -43,16 +47,24 @@ echo ""
 # Install Python dependencies
 echo "Installing Python dependencies..."
 echo "Installing required dependency (mutagen)..."
-if python3 -m pip install --user mutagen; then
+
+# Try multiple methods to install mutagen
+if python3 -m pip install --user mutagen 2>/dev/null; then
+    echo "✓ Mutagen installed"
+elif pip3 install --user mutagen 2>/dev/null; then
+    echo "✓ Mutagen installed"
+elif python3 -m pip install mutagen 2>/dev/null; then
     echo "✓ Mutagen installed"
 else
-    echo "⚠️  Failed to install mutagen. Trying alternative method..."
-    pip3 install --user mutagen || {
-        echo "❌ Could not install mutagen. Please install manually:"
-        echo "   pip3 install --user mutagen"
-        exit 1
-    }
-    echo "✓ Mutagen installed"
+    echo "⚠️  Failed to install mutagen automatically"
+    echo ""
+    echo "Please install manually:"
+    echo "   pip3 install --user mutagen"
+    echo ""
+    echo "Or try:"
+    echo "   python3 -m pip install --user mutagen"
+    echo ""
+    read -p "Press Enter to continue anyway (app may not work without mutagen)..." || true
 fi
 
 # Remove Pillow if it's installed (causes macOS version compatibility issues)
@@ -70,26 +82,45 @@ echo ""
 
 # Check for FFmpeg
 echo "Checking for FFmpeg..."
+FFMPEG_FOUND=0
+
 if command -v ffmpeg &> /dev/null; then
-    FFMPEG_VERSION=$(ffmpeg -version | head -n1)
-    echo "✓ Found system FFmpeg: $FFMPEG_VERSION"
-elif [ -f "resources/ffmpeg/ffmpeg" ]; then
-    echo "✓ Found bundled FFmpeg"
-    chmod +x resources/ffmpeg/ffmpeg
-else
-    echo "⚠️  FFmpeg not found. Installing via Homebrew..."
+    FFMPEG_VERSION=$(ffmpeg -version 2>/dev/null | head -n1)
+    if [ $? -eq 0 ]; then
+        echo "✓ Found system FFmpeg: $FFMPEG_VERSION"
+        FFMPEG_FOUND=1
+    fi
+fi
+
+if [ $FFMPEG_FOUND -eq 0 ] && [ -f "$SCRIPT_DIR/resources/ffmpeg/ffmpeg" ]; then
+    chmod +x "$SCRIPT_DIR/resources/ffmpeg/ffmpeg" 2>/dev/null
+    if "$SCRIPT_DIR/resources/ffmpeg/ffmpeg" -version &>/dev/null; then
+        echo "✓ Found bundled FFmpeg"
+        FFMPEG_FOUND=1
+    fi
+fi
+
+if [ $FFMPEG_FOUND -eq 0 ]; then
+    echo "⚠️  FFmpeg not found"
     if command -v brew &> /dev/null; then
-        if brew install ffmpeg; then
+        echo "   Attempting to install via Homebrew..."
+        if brew install ffmpeg 2>/dev/null; then
             echo "✓ FFmpeg installed via Homebrew"
+            FFMPEG_FOUND=1
         else
-            echo "⚠️  FFmpeg installation failed. Please install manually:"
-            echo "   brew install ffmpeg"
-            echo "   Or download from: https://ffmpeg.org/download.html"
+            echo "⚠️  Homebrew installation failed"
         fi
-    else
-        echo "⚠️  Homebrew not found. Please install FFmpeg manually:"
-        echo "   brew install ffmpeg"
-        echo "   Or download from: https://ffmpeg.org/download.html"
+    fi
+    
+    if [ $FFMPEG_FOUND -eq 0 ]; then
+        echo ""
+        echo "⚠️  FFmpeg is required for audio conversion"
+        echo "   Please install it manually:"
+        echo "   - brew install ffmpeg  (if you have Homebrew)"
+        echo "   - Or download from: https://ffmpeg.org/download.html"
+        echo ""
+        echo "   The app will still run, but conversion won't work without FFmpeg"
+        echo ""
     fi
 fi
 echo ""
@@ -102,12 +133,10 @@ echo ""
 echo "=================================="
 echo "✅ Installation complete!"
 echo ""
-echo "To run the app:"
-echo "  python3 run.py"
+echo "Next steps:"
+echo "  1. Run the app: python3 run.py"
+echo "  2. Or build standalone app: ./BUILD_SIMPLE.sh"
 echo ""
-echo "Or build a standalone app:"
-echo "  ./build_app.sh"
-echo ""
-echo "Then double-click 'AIFF Me Please.app' in the dist/ folder"
+echo "For more info, see: INSTALLATION_COMPLETE.md"
 echo ""
 
