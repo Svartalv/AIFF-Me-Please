@@ -819,8 +819,8 @@ class FLAC2AIFFApp:
         content_frame = tk.Frame(main_frame, bg=self.bg_color)
         content_frame.pack(fill=tk.BOTH, expand=True)
         
-        # Cat icon
-        if self.icon_image:
+        # Cat icon - disabled for macOS compatibility
+        if False and self.icon_image:  # Always False to skip icon
             icon_label = tk.Label(
                 content_frame,
                 image=self.icon_image,
