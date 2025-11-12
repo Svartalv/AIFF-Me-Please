@@ -87,6 +87,13 @@ That's it! The setup script handles everything automatically.
 - Check dependencies: `pip3 list | grep mutagen`
 - Check FFmpeg: `which ffmpeg` or `ffmpeg -version`
 
+**macOS Version Error** (macOS 14.6 or earlier):
+```
+macOS 14 (1407) or later required, have instead 14 (1406) !
+```
+- **Quick fix**: `pip3 uninstall Pillow` or run `./fix_macos.sh`
+- The app works perfectly without Pillow (just no icon)
+
 ## File Size Considerations
 
 The project includes:

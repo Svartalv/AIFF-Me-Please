@@ -1,5 +1,16 @@
 # Quick Start Guide
 
+## ⚠️ IMPORTANT: macOS Compatibility
+
+**If you have macOS 14.6 or earlier**, you may get a version error. The setup script handles this automatically, but if you see:
+```
+macOS 14 (1407) or later required, have instead 14 (1406) !
+```
+
+**Just run**: `./fix_macos.sh` and then `python3 run.py`
+
+The app works perfectly without Pillow - you just won't see the icon.
+
 ## For Your Friend - Simple Setup Instructions
 
 ### Option 1: Automated Setup (Easiest)
@@ -18,11 +29,17 @@
    
    This will automatically:
    - Check Python version
-   - Install required dependencies (mutagen, Pillow)
+   - Install required dependencies (mutagen)
+   - Handle Pillow compatibility automatically
    - Check for FFmpeg and install it if needed
    - Make everything ready to run
 
-4. **Run the app**:
+4. **If you get macOS version errors**, run:
+   ```bash
+   ./fix_macos.sh
+   ```
+
+5. **Run the app**:
    ```bash
    python3 run.py
    ```
@@ -62,8 +79,15 @@ That's it! Your AIFF files will be ready for your CDJ.
 
 ## Troubleshooting
 
-**"No module named 'mutagen'" or "No module named 'PIL'"**
-- Run: `pip3 install --user mutagen Pillow`
+**"No module named 'mutagen'"**
+- Run: `pip3 install --user mutagen`
+
+**macOS Version Error** (most common on macOS 14.6 or earlier)
+```
+macOS 14 (1407) or later required, have instead 14 (1406) !
+```
+- **Fix**: `pip3 uninstall Pillow` or run `./fix_macos.sh`
+- The app works perfectly without Pillow (just no icon)
 
 **"FFmpeg not found"**
 - Install FFmpeg: `brew install ffmpeg` (if you have Homebrew)
@@ -71,7 +95,8 @@ That's it! Your AIFF files will be ready for your CDJ.
 
 **App won't start**
 - Make sure you're using Python 3.7 or later: `python3 --version`
-- Check that all dependencies are installed
+- Check that mutagen is installed: `pip3 list | grep mutagen`
+- If you see macOS version errors, uninstall Pillow: `pip3 uninstall Pillow`
 
 ## Need Help?
 

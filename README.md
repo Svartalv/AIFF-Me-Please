@@ -18,6 +18,25 @@ A simple, reliable macOS application for converting FLAC and MP3 audio files to 
 - **Python 3.7+**
 - **FFmpeg** (installation instructions below)
 
+## ⚠️ Important: macOS Version Compatibility
+
+**If you have macOS 14.6 or earlier** and get an error like:
+```
+macOS 14 (1407) or later required, have instead 14 (1406) !
+```
+
+**Quick Fix**: Uninstall Pillow (it's only needed for the icon):
+```bash
+pip3 uninstall Pillow
+```
+
+The app works perfectly without Pillow - you just won't see the cat icon. All file conversion features work normally.
+
+**Or use the automatic fix script**:
+```bash
+./fix_macos.sh
+```
+
 ## Installation
 
 ### Quick Setup (Recommended)
@@ -31,11 +50,18 @@ cd "/path/to/AIFF Me Please"
 
 This script will automatically:
 - Check Python version
-- Install Python dependencies (mutagen, Pillow)
+- Install required dependency (mutagen)
+- Try to install Pillow (optional, for icon support)
+- Handle macOS compatibility issues automatically
 - Check for FFmpeg and install it if needed via Homebrew
 - Make the app ready to run
 
-Then simply run:
+**If you get macOS version errors**, the setup script will handle it, or run:
+```bash
+./fix_macos.sh
+```
+
+Then run the app:
 ```bash
 python3 run.py
 ```
@@ -135,9 +161,20 @@ python3 -m app.main
 - Make sure FFmpeg is in your PATH: `which ffmpeg`
 - The app will try to use the bundled FFmpeg in `resources/ffmpeg/ffmpeg` as a fallback
 
-### "No module named 'mutagen'" or "No module named 'PIL'"
-- Install dependencies: `pip3 install --user -r requirements.txt`
-- If using a virtual environment, make sure it's activated
+### "No module named 'mutagen'"
+- Install mutagen: `pip3 install --user mutagen`
+
+### macOS Version Error (macOS 14.6 or earlier)
+**Error**: `macOS 14 (1407) or later required, have instead 14 (1406) !`
+
+This is caused by Pillow. **Fix it immediately**:
+```bash
+pip3 uninstall Pillow
+# Or use the fix script:
+./fix_macos.sh
+```
+
+The app works perfectly without Pillow - you just won't see the icon. All conversion features work normally.
 
 ### Files not converting
 - Check that input files are valid FLAC or MP3
