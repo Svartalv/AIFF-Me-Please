@@ -1,89 +1,37 @@
-# Quick Start Guide
+# Quick Start
 
-## ⚠️ Note: Icon Display
+## Installation (2 Steps)
 
-Pillow has been removed from this app for macOS compatibility. The app works perfectly - you just won't see the cat icon in the title bar. All features work normally.
-
-## For Your Friend - Simple Setup Instructions
-
-### Option 1: Automated Setup (Easiest)
-
-1. **Open Terminal** (Press `Cmd + Space`, type "Terminal", press Enter)
-
-2. **Navigate to the project folder**:
-   ```bash
-   cd "/path/to/AIFF Me Please"
-   ```
-
-3. **Run the setup script**:
+1. **Run the installer**:
    ```bash
    ./setup.sh
    ```
-   
-   This will automatically:
-   - Check Python version
-   - Install required dependency (mutagen)
-   - Remove Pillow if installed (for compatibility)
-   - Check for FFmpeg and install it if needed
-   - Make everything ready to run
 
-4. **Run the app**:
+2. **Run the app**:
    ```bash
    python3 run.py
    ```
 
-### Option 2: Manual Setup
+That's it!
 
-If the setup script doesn't work, follow these steps:
+## Or Build a Standalone App
 
-1. **Install Python dependencies**:
-   ```bash
-   pip3 install --user mutagen Pillow
-   ```
+Want a double-clickable app? Run:
+```bash
+./build_app.sh
+```
 
-2. **Install FFmpeg** (choose one):
-   - **Using Homebrew** (if installed):
-     ```bash
-     brew install ffmpeg
-     ```
-   - **Or download manually** from [ffmpeg.org](https://ffmpeg.org/download.html)
-
-3. **Run the app**:
-   ```bash
-   python3 run.py
-   ```
+Then double-click `dist/AIFF Me Please.app` - no Terminal needed!
 
 ## Using the App
 
-1. **Launch**: Run `python3 run.py` in Terminal
-
-2. **Select files**: Click "Choose" next to "Input folder" and select your FLAC or MP3 files
-
-3. **Choose output**: Click "Choose" next to "Output folder" to pick where converted files go
-
-4. **Convert**: Click "Start Conversion" and wait for the completion message
-
-That's it! Your AIFF files will be ready for your CDJ.
-
-## Troubleshooting
-
-**"No module named 'mutagen'"**
-- Run: `pip3 install --user mutagen`
-
-**Icon not showing**
-- This is normal - Pillow has been removed for macOS compatibility
-- The app works perfectly without the icon
-
-**"FFmpeg not found"**
-- Install FFmpeg: `brew install ffmpeg` (if you have Homebrew)
-- Or download from [ffmpeg.org](https://ffmpeg.org/download.html)
-
-**App won't start**
-- Make sure you're using Python 3.7 or later: `python3 --version`
-- Check that mutagen is installed: `pip3 list | grep mutagen`
-- If you see macOS version errors, uninstall Pillow: `pip3 uninstall Pillow`
+1. Select your audio files (FLAC or MP3)
+2. Choose output folder
+3. Click "Start Conversion"
+4. Done!
 
 ## Need Help?
 
-Check the full README.md for detailed information.
-
+- **FFmpeg missing?** Run: `brew install ffmpeg`
+- **Python error?** Make sure you have Python 3.7+: `python3 --version`
+- **Dependencies?** Run: `pip3 install --user mutagen`
