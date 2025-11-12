@@ -37,17 +37,14 @@ echo "Using mutagen 1.45.1 (compatible with macOS 14.6)..."
 pip3 uninstall -y mutagen 2>/dev/null || true
 python3 -m pip uninstall -y mutagen 2>/dev/null || true
 
-# Try to install specific old version
-if python3 -m pip install --user "mutagen==1.45.1" --no-deps 2>/dev/null; then
-    echo "✓ Mutagen 1.45.1 installed"
-    # Now install its dependencies separately (older versions)
-    python3 -m pip install --user "deprecation>=2.0.0,<3.0" 2>/dev/null || true
-elif pip3 install --user "mutagen==1.45.1" --no-deps 2>/dev/null; then
-    echo "✓ Mutagen 1.45.1 installed"
-    pip3 install --user "deprecation>=2.0.0,<3.0" 2>/dev/null || true
-elif python3 -m pip install --user "mutagen==1.45.0" --no-deps 2>/dev/null; then
+# Try to install specific old version with --no-build-isolation (more aggressive)
+if python3 -m pip install --user "mutagen==1.45.1" --no-deps --no-build-isolation 2>/dev/null; then
+    echo "✓ Mutagen 1.45.1 installed (no dependencies, no build isolation)"
+elif pip3 install --user "mutagen==1.45.1" --no-deps --no-build-isolation 2>/dev/null; then
+    echo "✓ Mutagen 1.45.1 installed (no dependencies, no build isolation)"
+elif python3 -m pip install --user "mutagen==1.45.0" --no-deps --no-build-isolation 2>/dev/null; then
     echo "✓ Mutagen 1.45.0 installed"
-elif pip3 install --user "mutagen==1.45.0" --no-deps 2>/dev/null; then
+elif pip3 install --user "mutagen==1.45.0" --no-deps --no-build-isolation 2>/dev/null; then
     echo "✓ Mutagen 1.45.0 installed"
 elif python3 -m pip install --user "mutagen<1.46" 2>/dev/null; then
     echo "✓ Mutagen installed (old version)"
@@ -57,7 +54,10 @@ else
     echo "⚠️  Could not install mutagen automatically"
     echo ""
     echo "Please install manually:"
-    echo "   pip3 install --user 'mutagen==1.45.1' --no-deps"
+    echo "   pip3 install --user 'mutagen==1.45.1' --no-deps --no-build-isolation"
+    echo ""
+    echo "Or run the nuclear option:"
+    echo "   ./nuke_dependencies.sh"
     echo ""
 fi
 echo ""
